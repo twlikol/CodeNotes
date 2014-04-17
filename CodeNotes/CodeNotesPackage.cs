@@ -8,9 +8,11 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
+using Likol.CodeNotes.Options;
 
 namespace Likol.CodeNotes
 {
+    [ProvideOptionPage(typeof(CodeNotesOption), "程式碼筆記", "一般", 0, 0, true)]
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
