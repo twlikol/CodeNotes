@@ -6,6 +6,50 @@
     
     <Commands package="guidCodeNotesPkg">
 
+        <Groups>
+
+            <Group guid="guidCodeNotesCmdSet" id="CodeWinContextMenuGroup" priority="0x0000">
+                <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
+            </Group>
+
+            <Group guid="guidCodeNotesCmdSet" id="CodeNotesMenuGroup" priority="0x0000">
+                <Parent guid="guidCodeNotesCmdSet" id="CodeNotesMenu" />
+            </Group>
+
+        </Groups>
+
+        <Menus>
+
+            <Menu guid="guidCodeNotesCmdSet" id="CodeNotesMenu" type="Menu" priority="0x0100">
+                <Parent guid="guidCodeNotesCmdSet" id="CodeWinContextMenuGroup" />
+                <Strings>
+                    <CommandName>程式碼筆記</CommandName>
+                    <ButtonText>程式碼筆記</ButtonText>
+                </Strings>
+            </Menu>
+
+        </Menus>
+
+        <Buttons>
+
+            <Button guid="guidCodeNotesCmdSet" id="cmdidInsertCode" type="Button" priority="0x0100">
+                <Parent guid="guidCodeNotesCmdSet" id="CodeNotesMenuGroup" />
+                <Strings>
+                    <CommandName>cmdidInsertCode</CommandName>
+                    <ButtonText>插入程式碼</ButtonText>
+                </Strings>
+            </Button>
+
+            <Button guid="guidCodeNotesCmdSet" id="cmdidSaveCode" type="Button" priority="0x0101">
+                <Parent guid="guidCodeNotesCmdSet" id="CodeNotesMenuGroup" />
+                <Strings>
+                    <CommandName>cmdidSaveCode</CommandName>
+                    <ButtonText>儲存程式碼</ButtonText>
+                </Strings>
+            </Button>
+
+        </Buttons>
+        
         <Bitmaps>
             <Bitmap guid="guidImages" href="Resources\Images.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows"/>
         </Bitmaps>
@@ -14,6 +58,18 @@
     
     <Symbols>
         <GuidSymbol name="guidCodeNotesPkg" value="{8f47ea04-c573-45c6-a1b5-e9eae1e861e7}" />
+
+        <GuidSymbol name="guidCodeNotesCmdSet" value="{f4a6524b-e3f8-4501-b47e-23484f7c5f58}">
+
+            <IDSymbol name="CodeWinContextMenuGroup" value="0x1001" />
+
+            <IDSymbol name="CodeNotesMenu" value="0x2001" />
+            <IDSymbol name="CodeNotesMenuGroup" value="0x2002" />
+
+            <IDSymbol name="cmdidInsertCode" value="0x3001" />
+            <IDSymbol name="cmdidSaveCode" value="0x3002" />
+
+        </GuidSymbol>
 
         <GuidSymbol name="guidImages" value="{31b47ade-795c-452c-bc19-58fbfff60eed}" >
             <IDSymbol name="bmpPic1" value="1" />

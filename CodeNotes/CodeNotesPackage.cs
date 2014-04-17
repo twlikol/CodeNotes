@@ -27,6 +27,29 @@ namespace Likol.CodeNotes
             Debug.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
+            OleMenuCommandService oleMenuCommandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+
+            if (null != oleMenuCommandService)
+            {
+                CommandID menuCommandID = new CommandID(GuidList.guidCodeNotesCmdSet, (int)PkgCmdIDList.cmdidInsertCode);
+                MenuCommand menuCommand = new MenuCommand(this.InsertCode, menuCommandID);
+
+                oleMenuCommandService.AddCommand(menuCommand);
+
+                CommandID menuCommandID2 = new CommandID(GuidList.guidCodeNotesCmdSet, (int)PkgCmdIDList.cmdidSaveCode);
+                MenuCommand menuCommand2 = new MenuCommand(this.SaveCode, menuCommandID2);
+
+                oleMenuCommandService.AddCommand(menuCommand2);
+            }
+        }
+
+        private void InsertCode(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void SaveCode(object sender, EventArgs e)
+        {
             
         }
     }
