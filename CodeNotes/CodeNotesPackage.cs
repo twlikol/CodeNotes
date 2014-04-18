@@ -9,6 +9,9 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Likol.CodeNotes.Options;
+using EnvDTE;
+using System.Windows.Forms;
+using Likol.CodeNotes.UI;
 
 namespace Likol.CodeNotes
 {
@@ -19,9 +22,18 @@ namespace Likol.CodeNotes
     [Guid(GuidList.guidCodeNotesPkgString)]
     public sealed class CodeNotesPackage : Package
     {
+        private DTE dte;
+
+        public DTE DTE
+        {
+            get { return this.dte; }
+        }
+
         public CodeNotesPackage()
         {
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
+
+            this.dte = Package.GetGlobalService(typeof(DTE)) as DTE;
         }
 
         protected override void Initialize()
@@ -47,12 +59,55 @@ namespace Likol.CodeNotes
 
         private void InsertCode(object sender, EventArgs e)
         {
-            
+            CodeNotesOption codeNotesOption = this.GetDialogPage(typeof(CodeNotesOption)) as CodeNotesOption;
+
+            if (codeNotesOption == null)
+            {
+                return;
+            }
+
+            InsertCodeForm insertCodeForm = new InsertCodeForm(codeNotesOption);
+
+            DialogResult dialogResult = insertCodeForm.ShowDialog();
+
+            if (dialogResult == DialogResult.OK)
+            {
+                if (this.DTE.ActiveWindow.Document == null) return;
+
+                TextSelection textSelection = (TextSelection)this.DTE.ActiveWindow.Document.Selection;
+
+                textSelection.Insert(insertCodeForm.CodeContext);
+                textSelection.NewLine();
+
+                this.DTE.ExecuteCommand("Edit.FormatDocument", "");
+            }
         }
 
         private void SaveCode(object sender, EventArgs e)
         {
-            
+            if (this.DTE.ActiveWindow.Document == null) return;
+
+            TextSelection textSelection = (TextSelection)this.DTE.ActiveWindow.Document.Selection;
+
+            string selectionText = textSelection.Text;
+
+            if (selectionText == "")
+            {
+                MessageBox.Show("請先選取你要儲存的程式碼.", "程式碼筆記", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            CodeNotesOption codeNotesOption = this.GetDialogPage(typeof(CodeNotesOption)) as CodeNotesOption;
+
+            if (codeNotesOption == null)
+            {
+                return;
+            }
+
+            SaveCodeForm saveCodeForm = new SaveCodeForm(codeNotesOption);
+            saveCodeForm.CodeContext = selectionText;
+            saveCodeForm.ShowDialog();
         }
     }
 }

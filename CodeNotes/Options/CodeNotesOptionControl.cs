@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Likol.CodeNotes.Data;
 
 namespace Likol.CodeNotes.Options
 {
@@ -33,7 +34,20 @@ namespace Likol.CodeNotes.Options
 
         private void btnTestConnection_Click(object sender, EventArgs e)
         {
+            CodeNoteDataOperation codeNoteDataOperation = new CodeNoteDataOperation(codeNotesOption.ConnectionString);
 
+            int result = -1;
+
+            CodeNoteDataEntityCollection codeDataEnities = codeNoteDataOperation.Select(out result);
+
+            if (result == -1)
+            {
+                MessageBox.Show("連線失敗,請確認是否正確設定資料庫連線.", "程式碼筆記", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                MessageBox.Show("連線成功.", "程式碼筆記", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }
