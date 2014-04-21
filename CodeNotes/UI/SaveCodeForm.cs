@@ -22,12 +22,15 @@ namespace Likol.CodeNotes.UI
             set { this.codeContext = value; }
         }
 
+        private CodeNotesPackage Package = null;
+
         public CodeNoteDataOperation CodeNoteDataOperation = null;
 
-        public SaveCodeForm(CodeNotesOption codeNotesOption)
+        public SaveCodeForm(CodeNotesPackage codeNotesPackage, CodeNotesOption codeNotesOption)
         {
             InitializeComponent();
 
+            this.Package = codeNotesPackage;
             this.CodeNoteDataOperation = new CodeNoteDataOperation(codeNotesOption.ConnectionString);
         }
 
@@ -54,6 +57,9 @@ namespace Likol.CodeNotes.UI
             else
             {
                 MessageBox.Show("程式碼筆記新增完成.", "程式碼筆記", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                this.Package.OnRefresh();
+
                 this.Close();
             }
         }

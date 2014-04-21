@@ -117,6 +117,13 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeNotesWindow.cs" />
+    <Compile Include="CodeNotesWindowControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CodeNotesWindowControl.Designer.cs">
+      <DependentUpon>CodeNotesWindowControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\CodeNoteDataEntity.cs" />
     <Compile Include="Data\CodeNoteDataOperation.cs" />
     <Compile Include="Guids.cs" />
@@ -152,6 +159,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CodeNotesWindowControl.resx">
+      <DependentUpon>CodeNotesWindowControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Options\CodeNotesOptionControl.resx">
       <DependentUpon>CodeNotesOptionControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -182,6 +192,7 @@
   <ItemGroup>
     <VSCTCompile Include="CodeNotes.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>

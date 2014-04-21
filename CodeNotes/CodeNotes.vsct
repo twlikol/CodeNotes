@@ -48,6 +48,14 @@
                 </Strings>
             </Button>
 
+            <Button guid="guidCodeNotesCmdSet" id="cmdidCodeNotes" type="Button" priority="0x9000">
+                <Parent guid="guidSHLMainMenu" id="IDG_VS_VIEW_DEV_WINDOWS" />
+                <Strings>
+                    <CommandName>cmdidCodeNotes</CommandName>
+                    <ButtonText>程式碼筆記</ButtonText>
+                </Strings>
+            </Button>
+
         </Buttons>
         
         <Bitmaps>
@@ -68,6 +76,7 @@
 
             <IDSymbol name="cmdidInsertCode" value="0x3001" />
             <IDSymbol name="cmdidSaveCode" value="0x3002" />
+            <IDSymbol name="cmdidCodeNotes" value="0x3003" />
 
         </GuidSymbol>
 

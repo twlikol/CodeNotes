@@ -8,5 +8,6 @@ namespace Likol.CodeNotes
     {
         public const uint cmdidInsertCode = 0x3001;
         public const uint cmdidSaveCode = 0x3002;
+        public const uint cmdidCodeNotes = 0x3003;
     };
 }
