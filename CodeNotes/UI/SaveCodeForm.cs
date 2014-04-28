@@ -14,6 +14,14 @@ namespace Likol.CodeNotes.UI
 {
     public partial class SaveCodeForm : Form
     {
+        private string language = "";
+
+        public string Language
+        {
+            get { return this.language; }
+            set { this.language = value; }
+        }
+
         private string codeContext = "";
 
         public string CodeContext
@@ -45,6 +53,8 @@ namespace Likol.CodeNotes.UI
 
             CodeNoteDataEntity codeDataEntity = new CodeNoteDataEntity();
             codeDataEntity.Title = this.txtTitle.Text;
+            codeDataEntity.Language = this.language;
+            codeDataEntity.Description = this.txtDescription.Text;
             codeDataEntity.Context = this.CodeContext;
             codeDataEntity.Created = DateTime.Now;
 

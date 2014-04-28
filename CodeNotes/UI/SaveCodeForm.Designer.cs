@@ -32,11 +32,14 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.txtDescription = new System.Windows.Forms.TextBox();
+            this.lblDescription = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(216, 77);
+            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOK.Location = new System.Drawing.Point(216, 207);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 2;
@@ -46,8 +49,9 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(297, 77);
+            this.btnCancel.Location = new System.Drawing.Point(297, 207);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 3;
@@ -56,6 +60,8 @@
             // 
             // txtTitle
             // 
+            this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTitle.Location = new System.Drawing.Point(12, 25);
             this.txtTitle.MaxLength = 32;
             this.txtTitle.Name = "txtTitle";
@@ -71,14 +77,36 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "程式碼名稱:";
             // 
+            // txtDescription
+            // 
+            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDescription.Location = new System.Drawing.Point(12, 64);
+            this.txtDescription.Multiline = true;
+            this.txtDescription.Name = "txtDescription";
+            this.txtDescription.Size = new System.Drawing.Size(360, 137);
+            this.txtDescription.TabIndex = 5;
+            // 
+            // lblDescription
+            // 
+            this.lblDescription.AutoSize = true;
+            this.lblDescription.Location = new System.Drawing.Point(12, 48);
+            this.lblDescription.Name = "lblDescription";
+            this.lblDescription.Size = new System.Drawing.Size(34, 13);
+            this.lblDescription.TabIndex = 6;
+            this.lblDescription.Text = "說明:";
+            // 
             // SaveCodeForm
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(384, 112);
+            this.ClientSize = new System.Drawing.Size(384, 242);
             this.ControlBox = false;
+            this.Controls.Add(this.lblDescription);
+            this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtTitle);
             this.Controls.Add(this.btnOK);
@@ -97,5 +125,7 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.TextBox txtTitle;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtDescription;
+        private System.Windows.Forms.Label lblDescription;
     }
 }

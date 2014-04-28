@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.Shell;
 using Likol.CodeNotes.Data;
+using EnvDTE;
 
 namespace Likol.CodeNotes
 {
@@ -78,9 +79,9 @@ namespace Likol.CodeNotes
 
             this.codeNoteDataOperation = new CodeNoteDataOperation(connectionString);
 
-            this.BindCodeNoteData();
-
             CodeNotesPackage.Instance.Refresh += new EventHandler(CodeNotesPackage_Refresh);
+
+            //this.BindCodeNoteData();
         }
 
         private void CodeNotesPackage_Refresh(object sender, EventArgs e)
@@ -94,7 +95,15 @@ namespace Likol.CodeNotes
 
             int result = -1;
 
-            CodeNoteDataEntityCollection codeNoteDataEntities = codeNoteDataOperation.Select(out result);
+            if (CodeNotesPackage.Instance.DTE.ActiveDocument == null) return;
+
+            TextDocument textDocument = CodeNotesPackage.Instance.DTE.ActiveDocument.Object() as TextDocument;
+
+            if (textDocument == null) return;
+
+            string language = textDocument.Language;
+
+            CodeNoteDataEntityCollection codeNoteDataEntities = codeNoteDataOperation.Select(language, out result);
 
             if (result == -1)
             {

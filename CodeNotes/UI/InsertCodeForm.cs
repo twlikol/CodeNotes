@@ -14,6 +14,14 @@ namespace Likol.CodeNotes.UI
 {
     public partial class InsertCodeForm : Form
     {
+        private string language = "";
+
+        public string Language
+        {
+            get { return this.language; }
+            set { this.language = value; }
+        }
+
         private string codeContext = "";
 
         public string CodeContext
@@ -34,7 +42,7 @@ namespace Likol.CodeNotes.UI
         {
             int result = -1;
 
-            CodeNoteDataEntityCollection codeDataEnities = this.CodeNoteDataOperation.Select(out result);
+            CodeNoteDataEntityCollection codeDataEnities = this.CodeNoteDataOperation.Select(this.language, out result);
 
             if (result == -1)
             {
@@ -64,6 +72,20 @@ namespace Likol.CodeNotes.UI
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
 
             this.Close();
-        }        
+        }
+
+        private void cbCodeNoteID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.cbCodeNoteID.SelectedItem == null)
+            {
+                this.txtDescription.Text = "";
+
+                return;
+            }
+
+            CodeNoteDataEntity codeNoteDataEntity = this.cbCodeNoteID.SelectedItem as CodeNoteDataEntity;
+
+            this.txtDescription.Text = codeNoteDataEntity.Description;
+        }
     }
 }

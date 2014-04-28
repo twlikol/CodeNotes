@@ -38,7 +38,7 @@ namespace Likol.CodeNotes.Options
 
             int result = -1;
 
-            CodeNoteDataEntityCollection codeDataEnities = codeNoteDataOperation.Select(out result);
+            CodeNoteDataEntityCollection codeDataEnities = codeNoteDataOperation.Select("None", out result);
 
             if (result == -1)
             {

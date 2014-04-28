@@ -63,6 +63,14 @@
         </Bitmaps>
 
     </Commands>
+
+    <CommandPlacements>
+
+        <CommandPlacement guid="guidCodeNotesCmdSet" id="CodeWinContextMenuGroup" priority="0x0600">
+            <Parent guid="guidSHTMLMenu" id="IDM_VS_CTXT_ASPX"/>
+        </CommandPlacement>
+
+    </CommandPlacements>
     
     <Symbols>
         <GuidSymbol name="guidCodeNotesPkg" value="{8f47ea04-c573-45c6-a1b5-e9eae1e861e7}" />
@@ -78,6 +86,10 @@
             <IDSymbol name="cmdidSaveCode" value="0x3002" />
             <IDSymbol name="cmdidCodeNotes" value="0x3003" />
 
+        </GuidSymbol>
+
+        <GuidSymbol name="guidSHTMLMenu" value="{D7E8C5E1-BDB8-11D0-9C88-0000F8040A53}">
+            <IDSymbol name="IDM_VS_CTXT_ASPX" value="0x0035"/><!-- 53 in hex is 0x0035 -->
         </GuidSymbol>
 
         <GuidSymbol name="guidImages" value="{31b47ade-795c-452c-bc19-58fbfff60eed}" >
