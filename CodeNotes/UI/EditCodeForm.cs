@@ -12,20 +12,18 @@ using System.Windows.Forms;
 
 namespace Likol.CodeNotes.UI
 {
-    public partial class SaveCodeForm : Form
+    public partial class EditCodeForm : Form
     {
-        private string language = "";
-        private string codeContext = "";
+        private CodeNoteDataEntity codeNoteDataEntity = null;
 
         public CodeNoteDataOperation CodeNoteDataOperation = null;
         public CodeNoteCategoryDataOperation CodeNoteCategoryDataOperation = null;
 
-        public SaveCodeForm(string language, string codeContext)
+        public EditCodeForm(CodeNoteDataEntity codeNoteDataEntity)
         {
             InitializeComponent();
 
-            this.language = language;
-            this.codeContext = codeContext;
+            this.codeNoteDataEntity = codeNoteDataEntity;
 
             string connectionString = CodeNotesPackage.Instance.Option.ConnectionString;
 
@@ -37,17 +35,11 @@ namespace Likol.CodeNotes.UI
         {
             int result = -1;
 
-            CodeNoteCategoryDataEntityCollection codeNoteCategoryDataEntities = this.CodeNoteCategoryDataOperation.Select(this.language, out result);
+            CodeNoteCategoryDataEntityCollection codeNoteCategoryDataEntities = this.CodeNoteCategoryDataOperation.Select(this.codeNoteDataEntity.Language, out result);
 
             if (result == -1)
             {
                 MessageBox.Show("程式碼筆記存取失敗,請確認是否正確設定資料庫連線.", "程式碼筆記", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                this.Close();
-            }
-            else if (result == 0)
-            {
-                MessageBox.Show("儲存程式碼前必須先新增分類設定,請先新增分類設定.", "程式碼筆記", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 this.Close();
             }
@@ -58,7 +50,24 @@ namespace Likol.CodeNotes.UI
             }
 
             if (this.cbCodeNoteCategory.Items.Count != 0)
-                this.cbCodeNoteCategory.SelectedIndex = 0;
+            {
+                int itemIndex = 0;
+
+                foreach (CodeNoteCategoryDataEntity codeNoteCategoryDataEntity in codeNoteCategoryDataEntities)
+                {
+                    if (codeNoteCategoryDataEntity.CodeNoteCategoryID == this.codeNoteDataEntity.CodeNoteCategoryID)
+                    {
+                        this.cbCodeNoteCategory.SelectedIndex = itemIndex;
+                        break;
+                    }
+
+                    itemIndex++;
+                }
+            }
+
+            this.txtTitle.Text = this.codeNoteDataEntity.Title;
+            this.txtDescription.Text = this.codeNoteDataEntity.Description;
+            this.txtCode.Text = this.codeNoteDataEntity.Context;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -71,25 +80,25 @@ namespace Likol.CodeNotes.UI
             }
 
             CodeNoteDataEntity codeDataEntity = new CodeNoteDataEntity();
+            codeDataEntity.CodeNoteID = this.codeNoteDataEntity.CodeNoteID;
             codeDataEntity.Title = this.txtTitle.Text;
-            codeDataEntity.Language = this.language;
+            codeDataEntity.Language = this.codeNoteDataEntity.Language;
             codeDataEntity.CodeNoteCategoryID = ((CodeNoteCategoryDataEntity)this.cbCodeNoteCategory.SelectedItem).CodeNoteCategoryID;
             codeDataEntity.Description = this.txtDescription.Text;
-            codeDataEntity.Context = this.codeContext;
-            codeDataEntity.Created = DateTime.Now;
+            codeDataEntity.Context = this.txtCode.Text;
             codeDataEntity.LatestUpdate = DateTime.Now;
 
-            int result = this.CodeNoteDataOperation.Create(codeDataEntity);
+            int result = this.CodeNoteDataOperation.Update(codeDataEntity);
 
             if (result == -1)
             {
-                MessageBox.Show("程式碼筆記新增失敗,請確認是否正確設定資料庫連線.", "程式碼筆記", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("程式碼筆記更新失敗,請確認是否正確設定資料庫連線.", "程式碼筆記", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 this.Close();
             }
             else
             {
-                MessageBox.Show("程式碼筆記新增完成.", "程式碼筆記", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //MessageBox.Show("程式碼筆記更新完成.", "程式碼筆記", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 CodeNotesPackage.Instance.OnRefresh(true);
 

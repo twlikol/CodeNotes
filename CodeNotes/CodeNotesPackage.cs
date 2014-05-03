@@ -27,7 +27,7 @@ namespace Likol.CodeNotes
     {
         public static CodeNotesPackage Instance = null;
 
-        public event EventHandler Refresh = null;
+        public event CodeNotesWindowRefreshEventHandler Refresh = null;
 
         public CodeNotesOption Option = null;
 
@@ -49,7 +49,7 @@ namespace Likol.CodeNotes
 
         private void WindowEvents_WindowActivated(Window GotFocus, Window LostFocus)
         {
-            this.OnRefresh();
+            this.OnRefresh(false);
         }
 
         protected override void Initialize()
@@ -92,13 +92,11 @@ namespace Likol.CodeNotes
 
             string language = textDocument.Language;
 
-            InsertCodeForm insertCodeForm = new InsertCodeForm(this.Option);
-            insertCodeForm.Language = language;
+            InsertCodeForm insertCodeForm = new InsertCodeForm(language);
 
             Font vsFont = this.GetVsDefaultFont();
 
-            if (vsFont != null)
-                insertCodeForm.Font = vsFont;   
+            if (vsFont != null) insertCodeForm.Font = vsFont;   
 
             DialogResult dialogResult = insertCodeForm.ShowDialog();
 
@@ -141,15 +139,12 @@ namespace Likol.CodeNotes
 
             string language = textDocument.Language;
 
-            SaveCodeForm saveCodeForm = new SaveCodeForm(this, this.Option);
+            SaveCodeForm saveCodeForm = new SaveCodeForm(language, selectionText);
 
             Font vsFont = this.GetVsDefaultFont();
 
-            if (vsFont != null)
-                saveCodeForm.Font = vsFont;            
+            if (vsFont != null) saveCodeForm.Font = vsFont;
 
-            saveCodeForm.Language = language;
-            saveCodeForm.CodeContext = selectionText;
             saveCodeForm.ShowDialog();
         }
 
@@ -167,11 +162,13 @@ namespace Likol.CodeNotes
             Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(vsWindowFrame.Show());
         }
 
-        public void OnRefresh()
+        public void OnRefresh(bool isForce)
         {
             if (this.Refresh != null)
             {
-                this.Refresh(this, EventArgs.Empty);
+                CodeNotesWindowRefreshEventArgs codeNotesWindowRefreshEventArgs = new CodeNotesWindowRefreshEventArgs(isForce);
+
+                this.Refresh(this, codeNotesWindowRefreshEventArgs);
             }
         }
 

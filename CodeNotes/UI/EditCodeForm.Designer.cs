@@ -1,6 +1,6 @@
 ﻿namespace Likol.CodeNotes.UI
 {
-    partial class SaveCodeForm
+    partial class EditCodeForm
     {
         /// <summary>
         /// Required designer variable.
@@ -36,12 +36,14 @@
             this.lblDescription = new System.Windows.Forms.Label();
             this.cbCodeNoteCategory = new System.Windows.Forms.ComboBox();
             this.lblCategory = new System.Windows.Forms.Label();
+            this.lblCode = new System.Windows.Forms.Label();
+            this.txtCode = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(216, 277);
+            this.btnOK.Location = new System.Drawing.Point(216, 409);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 2;
@@ -53,7 +55,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(297, 277);
+            this.btnCancel.Location = new System.Drawing.Point(297, 409);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 3;
@@ -84,7 +86,8 @@
             this.txtDescription.Location = new System.Drawing.Point(12, 104);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(360, 167);
+            this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtDescription.Size = new System.Drawing.Size(360, 80);
             this.txtDescription.TabIndex = 5;
             // 
             // lblDescription
@@ -114,13 +117,33 @@
             this.lblCategory.TabIndex = 8;
             this.lblCategory.Text = "分類:";
             // 
-            // SaveCodeForm
+            // lblCode
+            // 
+            this.lblCode.AutoSize = true;
+            this.lblCode.Location = new System.Drawing.Point(12, 187);
+            this.lblCode.Name = "lblCode";
+            this.lblCode.Size = new System.Drawing.Size(46, 13);
+            this.lblCode.TabIndex = 9;
+            this.lblCode.Text = "程式碼:";
+            // 
+            // txtCode
+            // 
+            this.txtCode.Location = new System.Drawing.Point(12, 203);
+            this.txtCode.Multiline = true;
+            this.txtCode.Name = "txtCode";
+            this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtCode.Size = new System.Drawing.Size(360, 200);
+            this.txtCode.TabIndex = 10;
+            // 
+            // EditCodeForm
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(384, 312);
+            this.ClientSize = new System.Drawing.Size(384, 444);
+            this.Controls.Add(this.txtCode);
+            this.Controls.Add(this.lblCode);
             this.Controls.Add(this.lblCategory);
             this.Controls.Add(this.cbCodeNoteCategory);
             this.Controls.Add(this.lblDescription);
@@ -132,11 +155,11 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "SaveCodeForm";
+            this.Name = "EditCodeForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "儲存程式碼";
+            this.Text = "編輯程式碼";
             this.Shown += new System.EventHandler(this.SaveCodeForm_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -153,5 +176,7 @@
         private System.Windows.Forms.Label lblDescription;
         private System.Windows.Forms.ComboBox cbCodeNoteCategory;
         private System.Windows.Forms.Label lblCategory;
+        private System.Windows.Forms.Label lblCode;
+        private System.Windows.Forms.TextBox txtCode;
     }
 }

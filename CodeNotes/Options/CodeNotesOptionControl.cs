@@ -20,6 +20,11 @@ namespace Likol.CodeNotes.Options
             this.codeNotesOption = codeNotesOption;
 
             InitializeComponent();
+
+            Font vsFont = CodeNotesPackage.Instance.GetVsDefaultFont();
+
+            if (vsFont != null)
+                this.Font = vsFont;
         }
 
         private void CodeNotesOptionControl_Load(object sender, EventArgs e)
@@ -38,7 +43,7 @@ namespace Likol.CodeNotes.Options
 
             int result = -1;
 
-            CodeNoteDataEntityCollection codeDataEnities = codeNoteDataOperation.Select("None", out result);
+            CodeNoteDataEntityCollection codeDataEnities = codeNoteDataOperation.Select("None", 0, out result);
 
             if (result == -1)
             {

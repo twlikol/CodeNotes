@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Likol.CodeNotes.Data
 {
-    public class CodeNoteDataOperation
+    public class CodeNoteCategoryDataOperation
     {
-        public CodeNoteDataOperation(string connectionString)
+        public CodeNoteCategoryDataOperation(string connectionString)
         {
             this.connectionString = connectionString;
         }
@@ -23,14 +23,14 @@ namespace Likol.CodeNotes.Data
             set { this.connectionString = value; }
         }
 
-        public CodeNoteDataEntity Get(CodeNoteDataEntity codeNoteDataEntity)
+        public CodeNoteCategoryDataEntity Get(CodeNoteCategoryDataEntity codeNoteCategoryDataEntity)
         {
-            string commandText = "SELECT * FROM CodeNote WHERE CodeNoteID=@CodeNoteID";
+            string commandText = "SELECT * FROM CodeNoteCategory WHERE CodeNoteCategoryID=@CodeNoteCategoryID";
 
             List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("CodeNoteID", codeNoteDataEntity.CodeNoteID));
+            parameters.Add(new SqlParameter("CodeNoteCategoryID", codeNoteCategoryDataEntity.CodeNoteCategoryID));
 
-            codeNoteDataEntity = null;
+            codeNoteCategoryDataEntity = null;
 
             SqlConnection sqlConnection = null;
             SqlDataReader sqlDataReader = null;
@@ -47,7 +47,7 @@ namespace Likol.CodeNotes.Data
 
                 if (sqlDataReader.Read())
                 {
-                    codeNoteDataEntity = this.GetFromReader(sqlDataReader);
+                    codeNoteCategoryDataEntity = this.GetFromReader(sqlDataReader);
                 }
             }
             catch
@@ -73,22 +73,19 @@ namespace Likol.CodeNotes.Data
                 }
             }
 
-            return codeNoteDataEntity;
+            return codeNoteCategoryDataEntity;
         }
 
-        public int Create(CodeNoteDataEntity codeNoteDataEntity)
+        public int Create(CodeNoteCategoryDataEntity codeNoteCategoryDataEntity)
         {
-            string commandText = "INSERT INTO CodeNote (Title,Language,CodeNoteCategoryID,Description,Context,Created,LatestUpdate)";
-            commandText += " VALUES(@Title,@Language,@CodeNoteCategoryID,@Description,@Context,@Created,@LatestUpdate) SELECT @@IDENTITY";
+            string commandText = "INSERT INTO CodeNoteCategory (Name,Language,Created,LatestUpdate)";
+            commandText += " VALUES(@Name,@Language,@Created,@LatestUpdate) SELECT @@IDENTITY";
 
             List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("Title", codeNoteDataEntity.Title));
-            parameters.Add(new SqlParameter("Language", codeNoteDataEntity.Language));
-            parameters.Add(new SqlParameter("CodeNoteCategoryID", codeNoteDataEntity.CodeNoteCategoryID));
-            parameters.Add(new SqlParameter("Description", codeNoteDataEntity.Description));
-            parameters.Add(new SqlParameter("Context", codeNoteDataEntity.Context));
-            parameters.Add(new SqlParameter("Created", codeNoteDataEntity.Created));
-            parameters.Add(new SqlParameter("LatestUpdate", codeNoteDataEntity.LatestUpdate));
+            parameters.Add(new SqlParameter("Name", codeNoteCategoryDataEntity.Name));
+            parameters.Add(new SqlParameter("Language", codeNoteCategoryDataEntity.Language));
+            parameters.Add(new SqlParameter("Created", codeNoteCategoryDataEntity.Created));
+            parameters.Add(new SqlParameter("LatestUpdate", codeNoteCategoryDataEntity.LatestUpdate));
 
             object returnValue = -1;
 
@@ -122,20 +119,17 @@ namespace Likol.CodeNotes.Data
             return Convert.ToInt32(returnValue);
         }
 
-        public int Update(CodeNoteDataEntity codeNoteDataEntity)
+        public int Update(CodeNoteCategoryDataEntity codeNoteCategoryDataEntity)
         {
-            string commandText = "UPDATE CodeNote SET";
-            commandText += " Title=@Title,Language=@Language,CodeNoteCategoryID=@CodeNoteCategoryID,Description=@Description,Context=@Context,LatestUpdate=@LatestUpdate";
-            commandText += " WHERE CodeNoteID=@CodeNoteID";
+            string commandText = "UPDATE CodeNoteCategory SET";
+            commandText += " Name=@Name,Language=@Language,LatestUpdate=@LatestUpdate";
+            commandText += " WHERE CodeNoteCategoryID=@CodeNoteCategoryID";
 
             List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("CodeNoteID", codeNoteDataEntity.CodeNoteID));
-            parameters.Add(new SqlParameter("Title", codeNoteDataEntity.Title));
-            parameters.Add(new SqlParameter("Language", codeNoteDataEntity.Language));
-            parameters.Add(new SqlParameter("CodeNoteCategoryID", codeNoteDataEntity.CodeNoteCategoryID));
-            parameters.Add(new SqlParameter("Description", codeNoteDataEntity.Context));
-            parameters.Add(new SqlParameter("Context", codeNoteDataEntity.Context));
-            parameters.Add(new SqlParameter("LatestUpdate", codeNoteDataEntity.LatestUpdate));
+            parameters.Add(new SqlParameter("CodeNoteCategoryID", codeNoteCategoryDataEntity.CodeNoteCategoryID));
+            parameters.Add(new SqlParameter("Name", codeNoteCategoryDataEntity.Name));
+            parameters.Add(new SqlParameter("Language", codeNoteCategoryDataEntity.Language));
+            parameters.Add(new SqlParameter("LatestUpdate", codeNoteCategoryDataEntity.LatestUpdate));
 
             int returnValue = -1;
 
@@ -169,12 +163,12 @@ namespace Likol.CodeNotes.Data
             return returnValue;
         }
 
-        public int Delete(CodeNoteDataEntity codeNoteDataEntity)
+        public int Delete(CodeNoteCategoryDataEntity codeNoteCategoryDataEntity)
         {
-            string commandText = "DELETE CodeNote WHERE CodeNoteID=@CodeNoteID";
+            string commandText = "DELETE CodeNoteCategory WHERE CodeNoteCategoryID=@CodeNoteCategoryID";
 
             List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("CodeNoteID", codeNoteDataEntity.CodeNoteID));
+            parameters.Add(new SqlParameter("CodeNoteCategoryID", codeNoteCategoryDataEntity.CodeNoteCategoryID));
 
             int returnValue = -1;
 
@@ -208,40 +202,34 @@ namespace Likol.CodeNotes.Data
             return returnValue;
         }
 
-        private CodeNoteDataEntity GetFromReader(SqlDataReader sqlDataReader)
+        private CodeNoteCategoryDataEntity GetFromReader(SqlDataReader sqlDataReader)
         {
-            CodeNoteDataEntity codeNoteDataEntity = new CodeNoteDataEntity();
+            CodeNoteCategoryDataEntity codeNoteCategoryDataEntity = new CodeNoteCategoryDataEntity();
 
-            codeNoteDataEntity.CodeNoteID = (int)sqlDataReader["CodeNoteID"];
-            codeNoteDataEntity.Title = (string)sqlDataReader["Title"];
-            codeNoteDataEntity.Language = (string)sqlDataReader["Language"];
-            codeNoteDataEntity.CodeNoteCategoryID = (int)sqlDataReader["CodeNoteCategoryID"];
-            codeNoteDataEntity.Description = (string)sqlDataReader["Description"];
-            codeNoteDataEntity.Context = (string)sqlDataReader["Context"];
-            codeNoteDataEntity.Created = (DateTime)sqlDataReader["Created"];
-            codeNoteDataEntity.LatestUpdate = (DateTime)sqlDataReader["LatestUpdate"];
+            codeNoteCategoryDataEntity.CodeNoteCategoryID = (int)sqlDataReader["CodeNoteCategoryID"];
+            codeNoteCategoryDataEntity.Name = (string)sqlDataReader["Name"];
+            codeNoteCategoryDataEntity.Language = (string)sqlDataReader["Language"];
+            codeNoteCategoryDataEntity.Created = (DateTime)sqlDataReader["Created"];
+            codeNoteCategoryDataEntity.LatestUpdate = (DateTime)sqlDataReader["LatestUpdate"];
 
-            return codeNoteDataEntity;
+            return codeNoteCategoryDataEntity;
         }
 
-        public CodeNoteDataEntityCollection Select(string language, int codeNoteCategoryID, out int result)
+        public CodeNoteCategoryDataEntityCollection Select(string language, out int result)
         {
-            string commandText = "SELECT * FROM CodeNote";
-            commandText += " WHERE 1=1";
-
-            if (codeNoteCategoryID != 0)
-                commandText += " AND CodeNoteCategoryID=@CodeNoteCategoryID";
+            string commandText = "SELECT * FROM CodeNoteCategory";
 
             if (!string.IsNullOrEmpty(language))
-                commandText += " AND Language=@Language";
+            {
+                commandText += " WHERE Language=@Language";
+            }
 
             commandText += " ORDER BY Created ASC";
 
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("Language", language));
-            parameters.Add(new SqlParameter("CodeNoteCategoryID", codeNoteCategoryID));
 
-            CodeNoteDataEntityCollection codeNoteDataEntities = new CodeNoteDataEntityCollection();
+            CodeNoteCategoryDataEntityCollection codeNoteDataEntities = new CodeNoteCategoryDataEntityCollection();
 
             SqlConnection sqlConnection = null;
             SqlDataReader sqlDataReader = null;
@@ -257,9 +245,9 @@ namespace Likol.CodeNotes.Data
 
                 while (sqlDataReader.Read())
                 {
-                    CodeNoteDataEntity codeNoteDataEntity = this.GetFromReader(sqlDataReader);
+                    CodeNoteCategoryDataEntity codeNoteCategoryDataEntity = this.GetFromReader(sqlDataReader);
 
-                    codeNoteDataEntities.Add(codeNoteDataEntity);
+                    codeNoteDataEntities.Add(codeNoteCategoryDataEntity);
                 }
 
                 result = codeNoteDataEntities.Count;

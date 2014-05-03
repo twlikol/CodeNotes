@@ -125,9 +125,12 @@
     <Compile Include="CodeNotesWindowControl.Designer.cs">
       <DependentUpon>CodeNotesWindowControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="CodeNotesWindowRefreshEventHandler.cs" />
     <Compile Include="Common\VsUtil.cs" />
     <Compile Include="Data\CodeNoteDataEntity.cs" />
     <Compile Include="Data\CodeNoteDataOperation.cs" />
+    <Compile Include="Data\CodeNoteCategoryDataEntity.cs" />
+    <Compile Include="Data\CodeNoteCategoryDataOperation.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="Options\CodeNotesOption.cs">
       <SubType>Component</SubType>
@@ -147,6 +150,30 @@
     <Compile Include="CodeNotesPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PkgCmdID.cs" />
+    <Compile Include="UI\CategoryManagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\CategoryManagerForm.Designer.cs">
+      <DependentUpon>CategoryManagerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\CategoryNewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\CategoryNewForm.Designer.cs">
+      <DependentUpon>CategoryNewForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\CategoryEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\CategoryEditForm.Designer.cs">
+      <DependentUpon>CategoryEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\EditCodeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\EditCodeForm.Designer.cs">
+      <DependentUpon>EditCodeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\InsertCodeForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -171,6 +198,18 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\CategoryManagerForm.resx">
+      <DependentUpon>CategoryManagerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\CategoryNewForm.resx">
+      <DependentUpon>CategoryNewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\CategoryEditForm.resx">
+      <DependentUpon>CategoryEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\EditCodeForm.resx">
+      <DependentUpon>EditCodeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\InsertCodeForm.resx">
       <DependentUpon>InsertCodeForm.cs</DependentUpon>

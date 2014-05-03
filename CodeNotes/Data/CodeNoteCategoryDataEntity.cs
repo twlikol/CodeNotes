@@ -6,24 +6,21 @@ using System.Threading.Tasks;
 
 namespace Likol.CodeNotes.Data
 {
-    public class CodeNoteDataEntity
+    public class CodeNoteCategoryDataEntity
     {
-        public int CodeNoteID { get; set; }
-        public string Title { get; set; }
-        public string Language { get; set; }
         public int CodeNoteCategoryID { get; set; }
-        public string Description { get; set; }
-        public string Context { get; set; }
+        public string Name { get; set; }
+        public string Language { get; set; }
         public DateTime Created { get; set; }
         public DateTime LatestUpdate { get; set; }
 
         public override string ToString()
         {
-            return this.Title;
+            return this.Name;
         }
     }
 
-    public class CodeNoteDataEntityCollection : List<CodeNoteDataEntity>
+    public class CodeNoteCategoryDataEntityCollection : List<CodeNoteCategoryDataEntity>
     {
     }
 }

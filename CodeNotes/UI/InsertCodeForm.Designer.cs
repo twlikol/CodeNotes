@@ -31,9 +31,11 @@
             this.cbCodeNoteID = new System.Windows.Forms.ComboBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.lblDescription = new System.Windows.Forms.Label();
             this.txtDescription = new System.Windows.Forms.TextBox();
+            this.lblCategory = new System.Windows.Forms.Label();
+            this.cbCodeNoteCategory = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // cbCodeNoteID
@@ -42,7 +44,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbCodeNoteID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbCodeNoteID.FormattingEnabled = true;
-            this.cbCodeNoteID.Location = new System.Drawing.Point(12, 25);
+            this.cbCodeNoteID.Location = new System.Drawing.Point(12, 66);
             this.cbCodeNoteID.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cbCodeNoteID.Name = "cbCodeNoteID";
             this.cbCodeNoteID.Size = new System.Drawing.Size(360, 21);
@@ -53,7 +55,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(297, 208);
+            this.btnCancel.Location = new System.Drawing.Point(297, 278);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 22);
@@ -64,7 +66,7 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(216, 208);
+            this.btnOK.Location = new System.Drawing.Point(216, 278);
             this.btnOK.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 22);
@@ -73,19 +75,19 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
-            // label1
+            // lblTitle
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "程式碼名稱:";
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Location = new System.Drawing.Point(12, 49);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(34, 13);
+            this.lblTitle.TabIndex = 4;
+            this.lblTitle.Text = "名稱:";
             // 
             // lblDescription
             // 
             this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(12, 48);
+            this.lblDescription.Location = new System.Drawing.Point(12, 91);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(34, 13);
             this.lblDescription.TabIndex = 8;
@@ -93,16 +95,32 @@
             // 
             // txtDescription
             // 
-            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDescription.Location = new System.Drawing.Point(12, 65);
+            this.txtDescription.Location = new System.Drawing.Point(12, 108);
             this.txtDescription.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ReadOnly = true;
-            this.txtDescription.Size = new System.Drawing.Size(360, 138);
+            this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtDescription.Size = new System.Drawing.Size(360, 162);
             this.txtDescription.TabIndex = 7;
+            // 
+            // lblCategory
+            // 
+            this.lblCategory.AutoSize = true;
+            this.lblCategory.Location = new System.Drawing.Point(12, 9);
+            this.lblCategory.Name = "lblCategory";
+            this.lblCategory.Size = new System.Drawing.Size(34, 13);
+            this.lblCategory.TabIndex = 10;
+            this.lblCategory.Text = "分類:";
+            // 
+            // cbCodeNoteCategory
+            // 
+            this.cbCodeNoteCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCodeNoteCategory.FormattingEnabled = true;
+            this.cbCodeNoteCategory.Location = new System.Drawing.Point(12, 25);
+            this.cbCodeNoteCategory.Name = "cbCodeNoteCategory";
+            this.cbCodeNoteCategory.Size = new System.Drawing.Size(360, 21);
+            this.cbCodeNoteCategory.TabIndex = 9;
             // 
             // InsertCodeForm
             // 
@@ -110,16 +128,21 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(384, 242);
-            this.ControlBox = false;
+            this.ClientSize = new System.Drawing.Size(384, 312);
+            this.Controls.Add(this.lblCategory);
+            this.Controls.Add(this.cbCodeNoteCategory);
             this.Controls.Add(this.lblDescription);
             this.Controls.Add(this.txtDescription);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.cbCodeNoteID);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "InsertCodeForm";
+            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "插入程式碼";
@@ -134,8 +157,10 @@
         private System.Windows.Forms.ComboBox cbCodeNoteID;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Label lblDescription;
         private System.Windows.Forms.TextBox txtDescription;
+        private System.Windows.Forms.Label lblCategory;
+        private System.Windows.Forms.ComboBox cbCodeNoteCategory;
     }
 }

@@ -10,16 +10,32 @@ using System.Windows.Forms;
 using Microsoft.VisualStudio.Shell;
 using Likol.CodeNotes.Data;
 using EnvDTE;
+using Likol.CodeNotes.UI;
 
 namespace Likol.CodeNotes
 {
     public partial class CodeNotesWindowControl : UserControl
     {
         private CodeNoteDataOperation codeNoteDataOperation;
+        private CodeNoteCategoryDataOperation codeNoteCategoryDataOperation;
 
         public CodeNotesWindowControl()
         {
             InitializeComponent();
+
+            Font vsFont = CodeNotesPackage.Instance.GetVsDefaultFont();
+
+            if (vsFont != null) this.Font = vsFont;
+        }
+
+        private void CodeNotesWindowControl_Load(object sender, EventArgs e)
+        {
+            string connectionString = CodeNotesPackage.Instance.Option.ConnectionString;
+
+            this.codeNoteDataOperation = new CodeNoteDataOperation(connectionString);
+            this.codeNoteCategoryDataOperation = new CodeNoteCategoryDataOperation(connectionString);
+
+            CodeNotesPackage.Instance.Refresh += new CodeNotesWindowRefreshEventHandler(RefreshEvent);
         }
 
         protected override void OnDragEnter(DragEventArgs e)
@@ -50,7 +66,7 @@ namespace Likol.CodeNotes
             base.OnDragDrop(e);
         }
 
-        private void tvCodeNotes_ItemDrag(object sender, ItemDragEventArgs e)
+        private void tvCodeNote_ItemDrag(object sender, ItemDragEventArgs e)
         {
             TreeNode treeNode = e.Item as TreeNode;
 
@@ -66,50 +82,111 @@ namespace Likol.CodeNotes
             DoDragDrop(oleDataObject, DragDropEffects.Move);
         }
 
-        private void tvCodeNotes_MouseDown(object sender, MouseEventArgs e)
+        private void tvCodeNote_MouseDown(object sender, MouseEventArgs e)
         {
-            TreeNode treeNode = tvCodeNotes.GetNodeAt(e.X, e.Y);
+            TreeNode treeNode = tvCodeNote.GetNodeAt(e.X, e.Y);
 
-            tvCodeNotes.SelectedNode = treeNode;
+            tvCodeNote.SelectedNode = treeNode;
         }
 
-        private void CodeNotesWindowControl_Load(object sender, EventArgs e)
+        private string currentTextLanguage = "None";
+
+        private void RefreshEvent(object sender, CodeNotesWindowRefreshEventArgs e)
         {
-            string connectionString = CodeNotesPackage.Instance.Option.ConnectionString;
-
-            this.codeNoteDataOperation = new CodeNoteDataOperation(connectionString);
-
-            CodeNotesPackage.Instance.Refresh += new EventHandler(CodeNotesPackage_Refresh);
-
-            //this.BindCodeNoteData();
+            if (e.IsForce || this.currentTextLanguage != this.TextLanguage)
+            {
+                this.OnRefresh();
+            }
         }
 
-        private void CodeNotesPackage_Refresh(object sender, EventArgs e)
+        private void OnRefresh()
         {
-            this.BindCodeNoteData();
+            this.cbCodeNoteCategory.Items.Clear();
+            this.tvCodeNote.Nodes.Clear();
+
+            bool result = this.BindCodeNoteCategoryData();
+
+            if (result) this.BindCodeNoteData();
+
+            this.currentTextLanguage = this.TextLanguage;
         }
 
-        private void BindCodeNoteData()
+        private string TextLanguage
         {
-            this.tvCodeNotes.Nodes.Clear();
+            get
+            {
+                string language = "";
+
+                if (CodeNotesPackage.Instance.DTE.ActiveDocument != null)
+                {
+                    TextDocument textDocument = CodeNotesPackage.Instance.DTE.ActiveDocument.Object() as TextDocument;
+
+                    if (textDocument != null)
+                        language = textDocument.Language;
+                }
+
+                return language;
+            }
+        }
+
+        private bool BindCodeNoteCategoryData()
+        {
+            this.cbCodeNoteCategory.Items.Clear();
+
+            if (this.TextLanguage == "") return false;
 
             int result = -1;
 
-            if (CodeNotesPackage.Instance.DTE.ActiveDocument == null) return;
-
-            TextDocument textDocument = CodeNotesPackage.Instance.DTE.ActiveDocument.Object() as TextDocument;
-
-            if (textDocument == null) return;
-
-            string language = textDocument.Language;
-
-            CodeNoteDataEntityCollection codeNoteDataEntities = codeNoteDataOperation.Select(language, out result);
+            CodeNoteCategoryDataEntityCollection codeNoteCategoryDataEntities = codeNoteCategoryDataOperation.Select(this.TextLanguage, out result);
 
             if (result == -1)
             {
                 MessageBox.Show("程式碼筆記存取失敗,請確認是否正確設定資料庫連線.", "程式碼筆記", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                return;
+                return false;
+            }
+
+            CodeNoteCategoryDataEntity cncdeAll = new CodeNoteCategoryDataEntity();
+            cncdeAll.CodeNoteCategoryID = 0;
+            cncdeAll.Name = "全部";
+            cncdeAll.Language = this.TextLanguage;
+
+            codeNoteCategoryDataEntities.Insert(0, cncdeAll);
+
+            CodeNoteCategoryDataEntity cncdeManager = new CodeNoteCategoryDataEntity();
+            cncdeManager.CodeNoteCategoryID = -1;
+            cncdeManager.Name = "<設定...>";
+            cncdeManager.Language = this.TextLanguage;
+
+            codeNoteCategoryDataEntities.Insert(codeNoteCategoryDataEntities.Count, cncdeManager);
+
+            foreach (CodeNoteCategoryDataEntity codeNoteCategoryDataEntity in codeNoteCategoryDataEntities)
+            {
+                this.cbCodeNoteCategory.Items.Add(codeNoteCategoryDataEntity);
+            }
+
+            this.cbCodeNoteCategory.SelectedIndex = 0;
+
+            return true;
+        }
+
+        private bool BindCodeNoteData()
+        {
+            this.tvCodeNote.Nodes.Clear();
+
+            if (this.TextLanguage == "") return false;
+
+            int codeNoteCategoryID = ((CodeNoteCategoryDataEntity)this.cbCodeNoteCategory.SelectedItem).CodeNoteCategoryID;
+
+            int result = -1;
+
+            CodeNoteDataEntityCollection codeNoteDataEntities = codeNoteDataOperation.Select(this.TextLanguage, codeNoteCategoryID, out result);
+
+            if (result == -1)
+            {
+                MessageBox.Show("程式碼筆記存取失敗,請確認是否正確設定資料庫連線.", "程式碼筆記", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return false;
             }
 
             foreach (CodeNoteDataEntity codeNoteDataEntity in codeNoteDataEntities)
@@ -118,7 +195,29 @@ namespace Likol.CodeNotes
                 treeNode.Text = codeNoteDataEntity.Title;
                 treeNode.Tag = codeNoteDataEntity;
 
-                this.tvCodeNotes.Nodes.Add(treeNode);
+                this.tvCodeNote.Nodes.Add(treeNode);
+            }
+
+            return true;
+        }
+
+        private void tsmiEdit_Click(object sender, EventArgs e)
+        {
+            TreeNode treeNode = this.tvCodeNote.SelectedNode;
+
+            CodeNoteDataEntity codeNoteDataEntity = treeNode.Tag as CodeNoteDataEntity;
+
+            EditCodeForm editCodeForm = new EditCodeForm(codeNoteDataEntity);
+
+            Font vsFont = CodeNotesPackage.Instance.GetVsDefaultFont();
+
+            if (vsFont != null) editCodeForm.Font = vsFont;
+
+            DialogResult dialogResult = editCodeForm.ShowDialog();
+
+            if (dialogResult == DialogResult.OK)
+            {
+                
             }
         }
 
@@ -128,7 +227,7 @@ namespace Likol.CodeNotes
 
             if (dialogResult != DialogResult.Yes) return;
 
-            TreeNode treeNode = this.tvCodeNotes.SelectedNode;
+            TreeNode treeNode = this.tvCodeNote.SelectedNode;
 
             CodeNoteDataEntity codeNoteDataEntity = treeNode.Tag as CodeNoteDataEntity;
 
@@ -137,10 +236,43 @@ namespace Likol.CodeNotes
             this.BindCodeNoteData();
         }
 
-        private void cmsCodeNotes_Opening(object sender, CancelEventArgs e)
+        private void cmsCodeNote_Opening(object sender, CancelEventArgs e)
         {
-            if (this.tvCodeNotes.SelectedNode == null)
+            if (this.tvCodeNote.SelectedNode == null)
                 e.Cancel = true;
+        }
+
+        private void cbCodeNoteCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.cbCodeNoteCategory.SelectedItem == null) return;
+
+            CodeNoteCategoryDataEntity codeNoteCategoryDataEntity = (CodeNoteCategoryDataEntity)this.cbCodeNoteCategory.SelectedItem;
+
+            if (codeNoteCategoryDataEntity.CodeNoteCategoryID >= 0)
+            {
+                this.BindCodeNoteData();
+
+                return;
+            }
+
+            CategoryManagerForm categoryManagerForm = new CategoryManagerForm(codeNoteCategoryDataEntity.Language);
+
+            Font vsFont = CodeNotesPackage.Instance.GetVsDefaultFont();
+
+            if (vsFont != null) categoryManagerForm.Font = vsFont;
+
+            DialogResult dialogResult = categoryManagerForm.ShowDialog(this);
+
+            if (dialogResult == DialogResult.OK)
+            {
+                this.OnRefresh();
+            }
+            else
+            {
+                this.cbCodeNoteCategory.SelectedIndex = 0;
+
+                this.BindCodeNoteData();
+            }
         }
     }
 }
