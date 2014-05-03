@@ -95,6 +95,11 @@ namespace Likol.CodeNotes.UI
             }
         }
 
+        private void cbCodeNoteCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.BindCodeNodeData();
+        }
+
         private void cbCodeNoteID_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (this.cbCodeNoteID.SelectedItem == null)

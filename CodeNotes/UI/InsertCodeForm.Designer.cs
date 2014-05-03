@@ -121,6 +121,7 @@
             this.cbCodeNoteCategory.Name = "cbCodeNoteCategory";
             this.cbCodeNoteCategory.Size = new System.Drawing.Size(360, 21);
             this.cbCodeNoteCategory.TabIndex = 9;
+            this.cbCodeNoteCategory.SelectedIndexChanged += new System.EventHandler(this.cbCodeNoteCategory_SelectedIndexChanged);
             // 
             // InsertCodeForm
             // 
