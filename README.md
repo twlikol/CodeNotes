@@ -10,3 +10,5 @@ Visual Studio擴充套件,目前適用於2012與2013版本,主要功能如下:
 參考畫面
 
 <img border="0" src="http://1.bp.blogspot.com/-2Q_KbuivUgw/U1CXp5xI1GI/AAAAAAAABlE/wTPzSkEKHFg/s1600/SaveCode.png" height="512" width="640">
+<br/>
+<img border="0" src="http://2.bp.blogspot.com/-cvuRA7cOAtY/U1UBPyqeLrI/AAAAAAAABlc/Qcl8-iPYPUU/s1600/ToolWindow2.png" height="512" width="640">
