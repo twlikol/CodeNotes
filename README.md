@@ -7,6 +7,9 @@ Visual Studio擴充套件,目前適用於2012與2013版本,主要功能如下:
 2. 程式碼將自動根據目前編輯中的檔案語言,自動儲存的對應的語言(CShare,XML...),並在插入時自動篩選.
 3. 加入一個工具視窗,可直接像工具箱一樣,使用拖拉的方式插入選擇的程式碼.
 
+建置原始碼需要安裝Visual Studio 2013 SDK,網址如下:
+http://www.microsoft.com/en-us/download/details.aspx?id=40758
+
 參考畫面
 
 <img border="0" src="http://1.bp.blogspot.com/-2Q_KbuivUgw/U1CXp5xI1GI/AAAAAAAABlE/wTPzSkEKHFg/s1600/SaveCode.png" height="512" width="640">
